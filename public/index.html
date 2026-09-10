@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventario</title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+
+    <style>
+
+        /* ================================
+           PANTALLA DE LOGIN
+        ================================= */
+
+        #pantallaLogin {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, #2563eb 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #7c3aed 0%, transparent 35%),
+                #0f172a;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 99999;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+
+            background: rgba(255,255,255,.97);
+
+            border-radius: 22px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.35);
+
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 18px;
+
+            border-radius: 18px;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 32px;
+
+            box-shadow:
+                0 10px 25px rgba(37,99,235,.35);
+        }
+
+        .login-box h1 {
+            margin: 0;
+
+            color: #111827;
+
+            font-size: 28px;
+        }
+
+        .login-box > p {
+            color: #6b7280;
+
+            margin: 8px 0 28px;
+
+            font-size: 14px;
+        }
+
+        .login-form {
+            text-align: left;
+        }
+
+        .login-field {
+            margin-bottom: 18px;
+        }
+
+        .login-field label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+            margin-bottom: 7px;
+        }
+
+        .login-field input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: .2s;
+
+            background: white;
+        }
+
+        .login-field input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37,99,235,.12);
+        }
+
+        .login-button {
+            width: 100%;
+
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #4f46e5
+            );
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(37,99,235,.3);
+        }
+
+        .login-button:disabled {
+            opacity: .6;
+
+            cursor: wait;
+
+            transform: none;
+        }
+
+        #mensajeLogin {
+            min-height: 20px;
+
+            margin-top: 15px;
+
+            color: #dc2626;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .login-footer {
+            margin-top: 25px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+        /* ================================
+           OCULTAR SISTEMA HASTA LOGIN
+        ================================= */
+
+        #sistema {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div id="pantallaLogin">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+            📦
+        </div>
+
+        <h1>Inventario</h1>
+
+        <p>
+            Inicia sesión para acceder al sistema
+        </p>
+
+        <form
+            id="formLogin"
+            class="login-form"
+        >
+
+            <div class="login-field">
+
+                <label for="usuarioLogin">
+                    Usuario
+                </label>
+
+                <input
+                    type="text"
+                    id="usuarioLogin"
+                    autocomplete="username"
+                    placeholder="Ingrese su usuario"
+                    required
+                >
+
+            </div>
+
+            <div class="login-field">
+
+                <label for="passwordLogin">
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="passwordLogin"
+                    autocomplete="current-password"
+                    placeholder="Ingrese su contraseña"
+                    required
+                >
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-button"
+                id="btnLogin"
+            >
+                Iniciar sesión
+            </button>
+
+            <div id="mensajeLogin"></div>
+
+        </form>
+
+        <div class="login-footer">
+            Sistema de Inventario
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SISTEMA
+===================================================== -->
+
+<div id="sistema">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                📦
+            </div>
+
+            <div>
+
+                <strong>
+                    Inventario
+                </strong>
+
+                <span>
+                    SISTEMA
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            PRINCIPAL
+        </div>
+
+
+        <nav class="menu">
+
+            <button
+                class="menu-btn activo"
+                onclick="mostrarSeccion('inicio', this)"
+            >
+                <span>🏠</span>
+                Inicio
+            </button>
+
+            <button
+                class="menu-btn"
+                onclick="mostrarSeccion('productos', this)"
+            >
+                <span>📦</span>
+                Productos
+            </button>
+
+            <button
+                class="menu-btn"
+                onclick="mostrarSeccion('categorias', this)"
+            >
+                <span>🗂️</span>
+                Categorías
+            </button>
+
+            <button
+                class="menu-btn"
+                onclick="mostrarSeccion('inventario', this)"
+            >
+                <span>📊</span>
+                Inventario
+            </button>
+
+            <button
+                class="menu-btn"
+                onclick="mostrarSeccion('configuracion', this)"
+            >
+                <span>⚙️</span>
+                Configuración
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="usuario">
+
+                <div class="avatar">
+                    AD
+                </div>
+
+                <div>
+
+                    <strong id="nombreUsuario">
+                        Administrador
+                    </strong>
+
+                    <small id="rolUsuario">
+                        Administrador
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================== -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+
+                <h2 id="tituloPagina">
+                    Inicio
+                </h2>
+
+                <p>
+                    Gestión de inventario
+                </p>
+
+            </div>
+
+            <div class="top-actions">
+
+                <button
+                    class="icon-btn"
+                    onclick="alternarTema()"
+                    title="Cambiar tema"
+                >
+                    🌙
+                </button>
+
+                <div class="fecha">
+                    Sistema activo
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             INICIO
+        ================================================== -->
+
+        <section
+            id="inicio"
+            class="seccion activa"
+        >
+
+            <div class="welcome">
+
+                <div>
+
+                    <div class="eyebrow">
+                        PANEL PRINCIPAL
+                    </div>
+
+                    <h1>
+                        Bienvenido
+                    </h1>
+
+                    <p>
+                        Administra tus productos,
+                        categorías e inventario desde
+                        un solo lugar.
+                    </p>
+
+                </div>
+
+                <div class="welcome-icon">
+                    📦
+                </div>
+
+            </div>
+
+
+            <div class="stats">
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Productos
+                        </span>
+
+                        <strong id="totalProductos">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card orange">
+
+                    <div class="stat-icon">
+                        ⚠️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Stock bajo
+                        </span>
+
+                        <strong id="stockBajo">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Valor inventario
+                        </span>
+
+                        <strong id="valorInventario">
+                            $0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card purple">
+
+                    <div class="stat-icon">
+                        🗂️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Categorías
+                        </span>
+
+                        <strong id="totalCategorias">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-grid">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h3>
+                                Productos recientes
+                            </h3>
+
+                            <span>
+                                Últimos productos registrados
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Producto
+                                    </th>
+
+                                    <th>
+                                        Categoría
+                                    </th>
+
+                                    <th>
+                                        Cantidad
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="productosDashboard">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <h3>
+                                Alertas
+                            </h3>
+
+                            <span>
+                                Productos con poco stock
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="alertas"
+                        id="alertas"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PRODUCTOS
+        ================================================== -->
+
+        <section
+            id="productos"
+            class="seccion"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        GESTIÓN
+                    </div>
+
+                    <h1>
+                        Productos
+                    </h1>
+
+                    <p>
+                        Administra todos los productos
+                        registrados.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn-primary"
+                    onclick="abrirModal()"
+                >
+                    + Nuevo producto
+                </button>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <div class="search">
+
+                    🔎
+
+                    <input
+                        type="text"
+                        id="buscarProductos"
+                        placeholder="Buscar producto o categoría..."
+                        oninput="buscarProductos()"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ID
+                                </th>
+
+                                <th>
+                                    Producto
+                                </th>
+
+                                <th>
+                                    Categoría
+                                </th>
+
+                                <th>
+                                    Cantidad
+                                </th>
+
+                                <th>
+                                    Precio
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                                <th>
+                                    Acciones
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="listaProductos">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CATEGORÍAS
+        ================================================== -->
+
+        <section
+            id="categorias"
+            class="seccion"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        ORGANIZACIÓN
+                    </div>
+
+                    <h1>
+                        Categorías
+                    </h1>
+
+                    <p>
+                        Organiza tus productos
+                        por categorías.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-create">
+
+                <input
+                    type="text"
+                    id="nuevaCategoria"
+                    placeholder="Nombre de nueva categoría"
+                    onkeydown="if(event.key === 'Enter') crearCategoria()"
+                >
+
+                <button
+                    class="btn-primary"
+                    onclick="crearCategoria()"
+                >
+                    + Crear categoría
+                </button>
+
+            </div>
+
+
+            <div
+                id="listaCategorias"
+                class="categories-grid"
+            >
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             INVENTARIO
+        ================================================== -->
+
+        <section
+            id="inventario"
+            class="seccion"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        CONTROL
+                    </div>
+
+                    <h1>
+                        Inventario
+                    </h1>
+
+                    <p>
+                        Consulta el estado general
+                        de tu inventario.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stats">
+
+                <div class="stat-card blue">
+
+                    <div class="stat-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Unidades totales
+                        </span>
+
+                        <strong id="unidadesInventario">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card green">
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Productos disponibles
+                        </span>
+
+                        <strong id="inventarioDisponible">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card orange">
+
+                    <div class="stat-icon">
+                        ⚠️
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Productos con stock bajo
+                        </span>
+
+                        <strong id="inventarioBajo">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h3>
+                            Resumen del inventario
+                        </h3>
+
+                        <span>
+                            Información actual de productos
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Producto
+                                </th>
+
+                                <th>
+                                    Categoría
+                                </th>
+
+                                <th>
+                                    Unidades
+                                </th>
+
+                                <th>
+                                    Precio
+                                </th>
+
+                                <th>
+                                    Valor total
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tablaInventario">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CONFIGURACIÓN
+        ================================================== -->
+
+        <section
+            id="configuracion"
+            class="seccion"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <div class="eyebrow">
+                        SISTEMA
+                    </div>
+
+                    <h1>
+                        Configuración
+                    </h1>
+
+                    <p>
+                        Personaliza las opciones
+                        del sistema.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel settings">
+
+                <h3>
+                    Apariencia
+                </h3>
+
+                <p>
+                    Personaliza cómo quieres
+                    visualizar el sistema.
+                </p>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Tema oscuro
+                        </strong>
+
+                        <div>
+                            Cambiar entre tema claro
+                            y oscuro.
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn-secondary"
+                        onclick="alternarTema()"
+                        id="botonTema"
+                    >
+                        🌙 Activar
+                    </button>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Sesión
+                        </strong>
+
+                        <div>
+                            Usuario actualmente conectado.
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn-secondary"
+                        onclick="cerrarSesion()"
+                    >
+                        Cerrar sesión
+                    </button>
+
+                </div>
+
+
+                <div class="setting-row">
+
+                    <div>
+
+                        <strong>
+                            Estado del sistema
+                        </strong>
+
+                        <div>
+                            Servidor conectado.
+                        </div>
+
+                    </div>
+
+                    <strong class="online">
+                        ● En línea
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL PRODUCTO
+===================================================== -->
+
+<div
+    id="modalProducto"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    NUEVO REGISTRO
+                </div>
+
+                <h2>
+                    Nuevo producto
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="cerrarModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="formProducto"
+            onsubmit="guardarProducto(event)"
+        >
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+
+                    <label>
+                        Nombre del producto
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nombreProducto"
+                        required
+                        placeholder="Ej. Teclado inalámbrico"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Categoría
+                    </label>
+
+                    <select
+                        id="categoriaProducto"
+                        required
+                    >
+
+                        <option value="">
+                            Seleccionar categoría
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Cantidad
+                    </label>
+
+                    <input
+                        type="number"
+                        id="cantidadProducto"
+                        min="0"
+                        value="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Precio
+                    </label>
+
+                    <div class="price-input">
+
+                        <span>
+                            $
+                        </span>
+
+                        <input
+                            type="number"
+                            id="precioProducto"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    onclick="cerrarModal()"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    Guardar producto
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN + INICIO DEL SISTEMA
+===================================================== -->
+
+<script>
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    document
+        .getElementById("formLogin")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const usuario =
+                document
+                    .getElementById("usuarioLogin")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("passwordLogin")
+                    .value;
+
+            const mensaje =
+                document.getElementById(
+                    "mensajeLogin"
+                );
+
+            const boton =
+                document.getElementById(
+                    "btnLogin"
+                );
+
+            mensaje.textContent = "";
+
+            boton.disabled = true;
+
+            boton.textContent = "Comprobando...";
+
+            try {
+
+                const respuesta =
+                    await fetch(
+                        "/api/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                usuario,
+                                password
+                            })
+                        }
+                    );
+
+                const resultado =
+                    await respuesta.json();
+
+                if (!respuesta.ok) {
+
+                    throw new Error(
+                        resultado.error ||
+                        "No se pudo iniciar sesión"
+                    );
+                }
+
+                document
+                    .getElementById(
+                        "pantallaLogin"
+                    )
+                    .style.display = "none";
+
+                document
+                    .getElementById(
+                        "sistema"
+                    )
+                    .style.display = "block";
+
+                const usuarioActual =
+                    resultado.usuario;
+
+                document
+                    .getElementById(
+                        "nombreUsuario"
+                    )
+                    .textContent =
+                        usuarioActual.nombre;
+
+                document
+                    .getElementById(
+                        "rolUsuario"
+                    )
+                    .textContent =
+                        usuarioActual.rol;
+
+                if (
+                    typeof cargarCategorias ===
+                    "function"
+                ) {
+                    await cargarCategorias();
+                }
+
+                if (
+                    typeof cargarProductos ===
+                    "function"
+                ) {
+                    await cargarProductos();
+                }
+
+                if (
+                    typeof mostrarSeccion ===
+                    "function"
+                ) {
+                    mostrarSeccion("inicio");
+                }
+
+            } catch (error) {
+
+                console.error(error);
+
+                mensaje.textContent =
+                    error.message;
+
+                boton.disabled = false;
+
+                boton.textContent =
+                    "Iniciar sesión";
+            }
+
+        });
+
+
+    // ==========================================
+    // COMPROBAR SESIÓN EXISTENTE
+    // ==========================================
+
+    async function comprobarSesion() {
+
+        try {
+
+            const respuesta =
+                await fetch(
+                    "/api/sesion"
+                );
+
+            const resultado =
+                await respuesta.json();
+
+            if (
+                resultado.autenticado
+            ) {
+
+                document
+                    .getElementById(
+                        "pantallaLogin"
+                    )
+                    .style.display = "none";
+
+                document
+                    .getElementById(
+                        "sistema"
+                    )
+                    .style.display = "block";
+
+                document
+                    .getElementById(
+                        "nombreUsuario"
+                    )
+                    .textContent =
+                        resultado.usuario.nombre;
+
+                document
+                    .getElementById(
+                        "rolUsuario"
+                    )
+                    .textContent =
+                        resultado.usuario.rol;
+
+                return true;
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+        return false;
+    }
+
+
+    // ==========================================
+    // CERRAR SESIÓN
+    // ==========================================
+
+    async function cerrarSesion() {
+
+        try {
+
+            await fetch(
+                "/api/logout",
+                {
+                    method: "POST"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+        location.reload();
+    }
+
+
+    // ==========================================
+    // TEMA
+    // ==========================================
+
+    function alternarTema() {
+
+        document.body.classList.toggle(
+            "tema-oscuro"
+        );
+
+        const oscuro =
+            document.body.classList.contains(
+                "tema-oscuro"
+            );
+
+        localStorage.setItem(
+            "temaInventario",
+            oscuro
+                ? "oscuro"
+                : "claro"
+        );
+
+        const boton =
+            document.getElementById(
+                "botonTema"
+            );
+
+        if (boton) {
+
+            boton.textContent =
+                oscuro
+                    ? "☀️ Tema claro"
+                    : "🌙 Activar";
+        }
+
+    }
+
+
+    // ==========================================
+    // TEMA GUARDADO
+    // ==========================================
+
+    if (
+        localStorage.getItem(
+            "temaInventario"
+        ) === "oscuro"
+    ) {
+
+        document.body.classList.add(
+            "tema-oscuro"
+        );
+    }
+
+
+    // ==========================================
+    // INVENTARIO COMPLETO
+    // ==========================================
+
+    function actualizarTablaInventario() {
+
+        const tabla =
+            document.getElementById(
+                "tablaInventario"
+            );
+
+        if (!tabla) return;
+
+        tabla.innerHTML = "";
+
+        if (
+            typeof productos ===
+            "undefined" ||
+            productos.length === 0
+        ) {
+
+            tabla.innerHTML = `
+                <tr>
+                    <td
+                        colspan="5"
+                        style="text-align:center;padding:30px;"
+                    >
+                        No hay productos registrados.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        productos.forEach(producto => {
+
+            const cantidad =
+                Number(
+                    producto.cantidad
+                );
+
+            const precio =
+                Number(
+                    producto.precio
+                );
+
+            const valor =
+                cantidad * precio;
+
+            tabla.innerHTML += `
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${producto.nombre}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${producto.categoria}
+                    </td>
+
+                    <td>
+                        ${cantidad}
+                    </td>
+
+                    <td>
+                        $${precio.toLocaleString("es-CO")}
+                    </td>
+
+                    <td>
+                        <strong>
+                            $${valor.toLocaleString("es-CO")}
+                        </strong>
+                    </td>
+
+                </tr>
+            `;
+
+        });
+    }
+
+
+    // ==========================================
+    // ACTUALIZAR CATEGORÍAS EN DASHBOARD
+    // ==========================================
+
+    function actualizarTotalCategorias() {
+
+        const elemento =
+            document.getElementById(
+                "totalCategorias"
+            );
+
+        if (elemento) {
+
+            elemento.textContent =
+                typeof categorias !==
+                "undefined"
+                    ? categorias.length
+                    : 0;
+        }
+    }
+
+
+    // ==========================================
+    // ACTUALIZAR INVENTARIO
+    // ==========================================
+
+    const actualizarInventarioOriginal =
+        typeof actualizarInventario ===
+        "function"
+            ? actualizarInventario
+            : null;
+
+    function actualizarInventario() {
+
+        if (
+            actualizarInventarioOriginal
+        ) {
+
+            actualizarInventarioOriginal();
+        }
+
+        actualizarTablaInventario();
+    }
+
+
+    // ==========================================
+    // INICIO
+    // ==========================================
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        async function() {
+
+            const conectado =
+                await comprobarSesion();
+
+            if (conectado) {
+
+                if (
+                    typeof cargarCategorias ===
+                    "function"
+                ) {
+                    await cargarCategorias();
+                }
+
+                if (
+                    typeof cargarProductos ===
+                    "function"
+                ) {
+                    await cargarProductos();
+                }
+
+                if (
+                    typeof actualizarTablaInventario ===
+                    "function"
+                ) {
+                    actualizarTablaInventario();
+                }
+
+                actualizarTotalCategorias();
+
+            }
+
+            document
+                .getElementById(
+                    "usuarioLogin"
+                )
+                .focus();
+
+        }
+    );
+
+</script>
+
+
+<!-- APP -->
+<script src="/js/app.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,11 @@
+node_modules/
+.env
+inventario.db-shm
+inventario.db-wal
+server.js.BACKUP
+server.js.ANTES_PUBLICAR
+server.js.ANTES_SEGURIDAD
+server.js.ANTES_REGISTRO
+server_actual.txt
+inventario.db.ANTES_PUBLICAR
+inventario.db
